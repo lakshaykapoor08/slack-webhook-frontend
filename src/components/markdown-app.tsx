@@ -18,13 +18,35 @@ const MarkdownApp: React.FC<MarkdownAppProps> = ({ url = "/README.md" }) => {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch(url);
+
+        // Add more detailed error logging
+        console.log("Attempting to fetch markdown from:", url);
+
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Accept: "text/plain, text/markdown, */*",
+            "Cache-Control": "no-cache",
+          },
+        });
+
+        console.log("Response status:", response.status);
+        console.log("Response headers:", response.headers);
+
         if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.statusText}`);
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
+
         const content = await response.text();
+        console.log("Content length:", content.length);
+
+        if (!content || content.trim().length === 0) {
+          throw new Error("Received empty content");
+        }
+
         setMarkdown(content);
       } catch (err) {
+        console.error("Fetch error:", err);
         setError(
           err instanceof Error ? err.message : "Failed to fetch remote markdown"
         );
@@ -72,7 +94,14 @@ const MarkdownApp: React.FC<MarkdownAppProps> = ({ url = "/README.md" }) => {
           <h3 className="text-lg font-medium text-red-900 mb-2">
             Failed to load markdown
           </h3>
-          <p className="text-red-600">❌ {error}</p>
+          <p className="text-red-600 mb-4">❌ {error}</p>
+          <div className="text-sm text-gray-600">
+            <p>
+              Attempted URL:{" "}
+              <code className="bg-gray-100 px-2 py-1 rounded">{url}</code>
+            </p>
+            <p className="mt-2">Check browser console for more details</p>
+          </div>
         </div>
       </div>
     );
@@ -105,6 +134,24 @@ const MarkdownApp: React.FC<MarkdownAppProps> = ({ url = "/README.md" }) => {
                   >
                     {children}
                   </code>
+                );
+              },
+              // Handle images properly for Vercel deployment
+              img: ({ src, alt, ...props }) => {
+                // Ensure images from public folder work on Vercel
+                const imageSrc = src?.startsWith("/") ? src : `/${src}`;
+                return (
+                  <img
+                    {...props}
+                    src={imageSrc}
+                    alt={alt}
+                    className="max-w-full h-auto rounded-lg shadow-sm my-4"
+                    onError={(e) => {
+                      console.error("Image load error:", imageSrc);
+                      // Fallback or hide broken images
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
                 );
               },
               h1: ({ children }) => (
