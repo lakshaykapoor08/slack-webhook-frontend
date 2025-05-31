@@ -138,8 +138,6 @@ slack-webhook-demo/
 │   │   └── infrastructure/
 │   │       └── http.ts          # Axios interceptor with webhook logic
 │   └── ...
-├── api/                         # Backend API routes (deployed on Vercel)
-│   └── index.js
 ├── package.json
 └── README.md
 ```
