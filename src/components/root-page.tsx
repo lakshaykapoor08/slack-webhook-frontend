@@ -181,14 +181,14 @@ const RenderAPIs = () => {
   };
 
   return (
-    <div className="p-6 w-full mx-auto bg-gray-50 rounded-lg shadow-lg">
+    <div className="p-4 w-full mx-auto bg-gray-50 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold text-center mb-6">
         API Error Response Tester
       </h1>
       {contextHolder}
       {/* Slack Configuration Section */}
       <Card title="Slack Configuration" className="mb-6">
-        <Space direction="vertical" className="w-full">
+        <Space direction="vertical" className="w-full !p-3">
           <div>
             <label className="block text-sm font-medium mb-2">
               Slack Channel Name:
@@ -213,8 +213,9 @@ const RenderAPIs = () => {
             />
           </div>
 
-          <Space>
+          <Space className="flex md:flex-row flex-col gap-2">
             <Button
+              className="break-words whitespace-pre-wrap"
               type="primary"
               onClick={saveSlackConfiguration}
               disabled={!slackChannel.trim() || !slackWebhookUrl.trim()}
