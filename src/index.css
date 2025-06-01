@@ -3,14 +3,17 @@
 
 html,
 body {
-  height: 100vh;
+  height: 100%;
   margin: 0;
-  overflow: hidden;
-  background: #c4e1e6;
+  background: #364153;
 }
 
 #root {
   height: 100%;
   width: 100%;
   display: flex;
+}
+
+.ant-card-body {
+  padding: 7px !important;
 }
