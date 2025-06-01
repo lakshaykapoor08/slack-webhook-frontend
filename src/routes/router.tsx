@@ -6,9 +6,9 @@ const router = [
   {
     path: "/",
     element: (
-      <div className="bg-gray-700 grid grid-cols-2 gap-5 !w-full">
+      <div className="bg-gray-700 md:grid md:grid-cols-2 flex flex-col gap-5 !w-full !p-2">
         <RenderAPIs />
-        <div className="!h-screen overflow-y-scroll">
+        <div>
           <MarkdownApp />
           <MarkdownRenderer />
         </div>

@@ -108,8 +108,8 @@ const MarkdownApp: React.FC<MarkdownAppProps> = ({ url = "/README.md" }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto min-h-screen bg-gray-50 rounded-lg p-4 !w-full">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="max-w-7xl mx-auto h-full bg-gray-50 rounded-lg p-4 !w-full">
+      <div className="bg-white rounded-lg shadow-sm p-6 h-screen overflow-y-auto">
         <div className="prose prose-lg max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
@@ -130,7 +130,9 @@ const MarkdownApp: React.FC<MarkdownAppProps> = ({ url = "/README.md" }) => {
                 ) : (
                   <code
                     {...rest}
-                    className={`${className} bg-gray-100 px-1 py-0.5 rounded text-sm`}
+                    className={`${
+                      className ?? ""
+                    } bg-gray-100 px-1 py-0.5 rounded text-sm break-words whitespace-pre-wrap`}
                   >
                     {children}
                   </code>
